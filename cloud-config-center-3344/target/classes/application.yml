@@ -1,0 +1,44 @@
+server:
+  port: 3344
+
+
+spring:
+  application:
+    name: cloud-config-center
+
+  cloud:
+    config:
+      server:
+        git:
+#          uri: https://github.com/wycug/spring-cloud-config.git
+#          uri: git@gitee.com:913680028/spring-config-cloud.git
+          uri: https://gitee.com/913680028/spring-config-cloud.git
+          search-paths:
+            - spring-cloud-config
+#          username: 913680028@qq.com
+#          password: Wuyong666
+#          force-pull: true
+        #          uri: git@github.com:wycug/spring-cloud-config.git
+        default-label: master
+  devtools:
+    add-properties: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    register-with-eureka: true   #是否将自己注册到注册中心,集群必须设置为true配合ribbon
+    fetch-registry: true    #是否从服务端抓取已有的注册信息
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: config-center
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh"
+

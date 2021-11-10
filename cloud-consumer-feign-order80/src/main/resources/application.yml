@@ -1,0 +1,26 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-order-service
+eureka:
+  client:
+    register-with-eureka: false   #是否将自己注册到注册中心,集群必须设置为true配合ribbon
+    fetch-registry: true    #是否从服务端抓取已有的注册信息,关闭后不能读取服务列表
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: order80
+    prefer-ip-address: true  #访问路径可以显示IP地址
+#    lease-renewal-interval-in-seconds: 1  #向服务端发送心跳的时间间隔，单位为秒（默认是30秒）
+#    lease-expiration-duration-in-seconds: 2 #收到最后一次心跳后等待时间上限，单位为秒（默认是90秒），超时将剔除
+
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+
+
+logging:
+  level:
+    com.springcloud.service.PaymentFeignService: debug

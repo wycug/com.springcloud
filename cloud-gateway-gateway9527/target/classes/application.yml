@@ -1,0 +1,38 @@
+server:
+  port: 9527
+
+
+spring:
+  application:
+    name: cloud-getway
+  #    zipkin:
+  #      base-url: http://localhost:9411
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true   #开启从注册中心获取服务地址
+      routes:
+        - id: payment_routh
+          uri: lb://CLOUD-PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/get/**
+
+        - id: payment_routh2
+          uri: lb://CLOUD-PAYMENT-SERVICE
+          predicates:
+            - Path=/payment/lb/**
+
+eureka:
+  client:
+    register-with-eureka: true   #是否将自己注册到注册中心,集群必须设置为true配合ribbon
+    fetch-registry: true    #是否从服务端抓取已有的注册信息
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: cloud-getway-service
+#    prefer-ip-address: true  #访问路径可以显示IP地址
+#    lease-renewal-interval-in-seconds: 1  #向服务端发送心跳的时间间隔，单位为秒（默认是30秒）
+#    lease-expiration-duration-in-seconds: 2 #收到最后
+
